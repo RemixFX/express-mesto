@@ -18,7 +18,7 @@ const createCard = (req, res) => {
   return Card.create({ name, link, owner })
     .then((card) => res.status(201).send({ data: card }))
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
+      if (err.name === 'ValidationError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
       }
       res.status(500).send({ message: 'Произошла ещё не изученная ошибка' });
@@ -29,9 +29,13 @@ const deleteCard = (req, res) => Card.findByIdAndRemove(req.params.id)
   .orFail(() => new Error('Not Found'))
   .then((card) => res.status(200).send({ data: card }))
   .catch((err) => {
+    if (err.name === 'CastError') {
+      return res.status(400).send({ message: 'Переданы некорректные данные' });
+    }
     if (err.message === 'Not Found') {
       return res.status(404).send({ message: 'Карточка не найдена' });
     }
+    res.status(500).send({ message: 'Произошла ещё не изученная ошибка' });
   });
 
 const sendLike = (req, res) => Card.findByIdAndUpdate(
