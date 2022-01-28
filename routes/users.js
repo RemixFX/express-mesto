@@ -6,8 +6,18 @@ const {
 } = require('../controllers/users');
 
 router.get('/me', getMyProfile);
+
 router.get('/', getUsers);
-router.get('/:userId', getUserId);
+
+router.get('/:userId', celebrate({
+  params: Joi.object().keys({
+    userId: Joi.string().hex().length(24).required(),
+  }).messages({
+    'string.empty': 'Поле {#label} не может быть пустым',
+    'string.length': 'Поле {#label} должно быть длиной 24 символов',
+    'any.required': '{#label} - обязательное поле',
+  }),
+}), getUserId);
 
 router.patch('/me', celebrate({
   body: Joi.object().keys({
@@ -26,7 +36,7 @@ router.patch('/me/avatar', celebrate({
       .regex(/^(https?:\/\/)(w{0,3})(([\da-z-]+)\.){1,3}([a-z.]{2,6})([\w-:~?#@!$&'()*+,;=./]*)*\/?$/),
   }).messages({
     'string.empty': 'Поле {#label} не может быть пустым',
-    'string.pattern.base': 'Некорректный адрес ссылки или содержит порнографический контент',
+    'string.pattern.base': 'Некорректный адрес ссылки',
     'object.unknown': 'Переданы не разрешенные данные',
   }),
 }), updateAvatar);

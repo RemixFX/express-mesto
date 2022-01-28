@@ -36,12 +36,16 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30),
+    avatar: Joi.string()
+      .regex(/^(https?:\/\/)(w{0,3})(([\da-z-]+)\.){1,3}([a-z.]{2,6})([\w-:~?#@!$&'()*+,;=./]*)*\/?$/),
   }).messages({
     'string.empty': 'Поле {#label} не может быть пустым',
     'string.min': 'Поле {#label} должно быть минимум {#limit} символов',
     'any.required': '{#label} - обязательное поле',
     'string.email': 'Неверный формат почты',
-    'object.unknown': 'Переданы не разрешенные данные',
+    'string.pattern.base': 'Некорректный адрес ссылки',
   }),
 }), createUser);
 
