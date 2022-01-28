@@ -27,6 +27,7 @@ router.delete('/:cardId', celebrate({
   }).messages({
     'string.empty': 'Поле {#label} не может быть пустым',
     'string.length': 'Поле {#label} должно быть длиной 24 символов',
+    'string.hex': 'Поле {#label} содержит некорректный id',
     'any.required': '{#label} - обязательное поле',
   }),
 }), deleteCard);
@@ -37,6 +38,7 @@ router.put('/:cardId/likes', celebrate({
   }).messages({
     'string.empty': 'Поле {#label} не может быть пустым',
     'string.length': 'Поле {#label} должно быть длиной 24 символов',
+    'string.hex': 'Поле {#label} содержит некорректный id',
     'any.required': '{#label} - обязательное поле',
   }),
 }), sendLike);
@@ -47,6 +49,7 @@ router.delete('/:cardId/likes', celebrate({
   }).messages({
     'string.empty': 'Поле {#label} не может быть пустым',
     'string.length': 'Поле {#label} должно быть длиной 24 символов',
+    'string.hex': 'Поле {#label} содержит некорректный id',
     'any.required': '{#label} - обязательное поле',
   }),
 }), deleteLike);

@@ -11,10 +11,11 @@ router.get('/', getUsers);
 
 router.get('/:userId', celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().hex().length(24).required(),
+    userId: Joi.string().length(24).hex().required(),
   }).messages({
     'string.empty': 'Поле {#label} не может быть пустым',
     'string.length': 'Поле {#label} должно быть длиной 24 символов',
+    'string.hex': 'Поле {#label} содержит некорректный id',
     'any.required': '{#label} - обязательное поле',
   }),
 }), getUserId);
