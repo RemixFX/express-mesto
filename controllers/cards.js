@@ -1,7 +1,7 @@
 const Card = require('../models/cards');
 const NotFoundError = require('../errors/not-found-error');
 const CastError = require('../errors/cast-error');
-const ForbiddenError = require('../errors/unauthorized-error');
+const ForbiddenError = require('../errors/forbidden-error');
 
 const getCards = (req, res, next) => Card.find({})
   .orFail(new NotFoundError('Карточки не найдены'))
